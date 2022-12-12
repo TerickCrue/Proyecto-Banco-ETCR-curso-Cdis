@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title th:text="${titulo}"></title>
+<link href = "../static/css/Layout.css" th:href = "@{/css/Layout.css}" rel = "stylesheet"/>
+</head>
+<body>
+<h3 th:text = "${titulo}"></h3>
+<br>
+<p class = "msjAdvertencia" th:text = "${mensaje}"></p>
+<p class = "msjSucces" th:text = "${mensajeSuccess}"></p>
+<br>
+
+<!-- Busqueda por ID de cuenta -->
+ 
+<form th:action = "@{/buscar-cuenta-Id}" th:object = "${cuenta}" method = "post">
+	<table th:if = "!${cuentas.isEmpty()}">
+		<tr>
+			<td>ID</td>
+			<td><input type = "text" onfocus="this.value=''" th:field = "*{idCuenta}" value = "busqueda"></td>
+		</tr>
+		<br>
+		<input type = "submit" value = "Buscar"/>
+	</table>
+</form>
+
+<table th:if ="${cuentaPorId}">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>SALDO</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each = "cuentaById: ${cuentaPorId}"></tr>
+		<tr th:each = "cuentaById: ${cuentaPorId}">
+			<td th:text = "${cuentaById.getIdCuenta()}"></td>
+			<td th:text = "${cuentaById.getSaldoActual()}"></td>
+			<td><a class = "btnEditar" th:href = "@{/form-cuenta/} + ${cuentaById.getIdCuenta()}" th:text = "'Editar'"></a></td>
+			<td><a class = "btnEliminar" th:href = "@{/eliminar-cuenta/} + ${cuentaById.getIdCuenta()}" th:text = "'Eliminar'"></a></td>
+		</tr>
+	</tbody>
+</table>
+
+<!-- Lista completa -->
+<table th:if="!${cuentaPorId}">
+
+	<a class="btnAceptar" th:href="@{/form-cuenta}">Registra nueva cuenta</a>
+	<br>
+	<br>
+	<p class="msjAdvertencia" th:text="${mensajeErr}"></p>
+	<thead>
+		<tr>
+		<th>ID</th>
+		<th>SALDO</th>
+		</tr>
+	</thead>
+	<tbody>
+		<p class="msjAdvertencia" th:if = "${cuentas.isEmpty()}"> La lista de cuentas está vacía</p>
+	
+		<tr th:each = "cuenta: ${cuentas}"></tr>
+		<tr th:each = "cuenta: ${cuentas}">
+			<td th:text = "${cuenta.getIdCuenta()}"></td>
+			<td th:text = "${cuenta.getSaldoActual()}"></td>
+			<td><a class = "btnEditar" th:href = "@{/form-cuenta/} + ${cuenta.getIdCuenta()}" th:text = "'Editar'"></a></td>
+			<td><a class = "btnEliminar" th:href = "@{/eliminar-cuenta/} + ${cuenta.getIdCuenta()}" th:text = "'Eliminar'"></a></td>
+		</tr>
+	</tbody>
+</table>
+<br>
+<a class="backButton" th:href = "@{/}">Inicio</a>
+<a class="backButton" th:href="@{/cuentas-lista}">Volver</a>
+
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title th:text = "${titulo}"></title>
+<link href = "../static/css/Layout.css" th:href = "@{/css/Layout.css}" rel = "stylesheet"/>
+</head>
+<body>
+	<h3 th:text = "${titulo}"></h3>
+	<br>
+	<p class = "msjAdvertencia" th:text = "${mensaje}"></p>
+	<p class = "msjSucces" th:text = "${mensajeSuccess}"></p>
+	<p class = "msjAdvertencia" th:text = "${mensajeErr}"></p>
+	<br>
+	<tbody>
+		<div>
+			<form th:action="@{/form-cliente}" th:object = "${cliente}" method = "post">
+				<table>
+					<tr>
+						<td>Nombre</td>
+						<td><input type = "text" th:field = "*{nombre}" required></td>
+						<div class="msjAdvertencia" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+					</tr>
+					<tr>
+						<td>Apellido</td>
+						<td><input type = "text" th:field = "*{apellido}" required></td>
+						<div class="msjAdvertencia" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+					</tr>
+					<tr>
+						<td>Numero de Telefono</td>
+						<td><input type = "text" th:field = "*{numeroTelefonico}" required></td>
+						<div class="msjAdvertencia" th:if="${#fields.hasErrors('numeroTelefonico')}" th:errors="*{numeroTelefonico}"></div>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td><input type = "text" th:field = "*{email}" required></td>
+						<div class="msjAdvertencia" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+					</tr>
+				</table>
+				<br><input class="btnAceptar" type = "submit" value = "Registrar cliente"/>
+		
+			</form>
+		</div>
+	</tbody>
+	<br>
+	<a class="backButton" th:href = "@{/clientes-lista}">Volver</a>
+
+</body>
+</html>

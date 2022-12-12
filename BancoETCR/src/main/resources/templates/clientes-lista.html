@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title th:text = "${titulo}"></title>
+<link href = "../static/css/Layout.css" th:href = "@{/css/Layout.css}" rel = "stylesheet"/>
+</head>
+<body>
+<h3 th:text = "${titulo}"></h3>
+<br>
+<p class = "msjAdvertencia" th:text = "${mensaje}"></p>
+<p class = "msjSucces" th:text = "${mensajeSuccess}"></p>
+<br>
+
+<!-- Busqueda por numero de telefono -->
+
+<form th:action="@{/buscar-numero-tel}" th:object = "${cliente}" method = "post">
+	<table th:if = "!${clientes.isEmpty()}">
+		<tr>
+			<td>Numero de telefono</td>
+			<td><input type = "text" onfocus="this.value=''" th:field = "*{numeroTelefonico}" value = "busqueda"></td>
+		</tr>
+		<br>
+		<input type = "submit" value = "Buscar"/>
+	</table>
+</form>
+
+<!-- Busqueda por ID de cliente -->
+ 
+<form th:action = "@{/buscar-Id}" th:object = "${cliente}" method = "post">
+	<table th:if = "!${clientes.isEmpty()}">
+		<tr>
+			<td>ID</td>
+			<td><input type = "text" onfocus="this.value=''" th:field = "*{idCliente}" value = "busqueda"></td>
+		</tr>
+		<br>
+		<input type = "submit" value = "Buscar"/>
+	</table>
+</form>
+
+<!-- Listas de la busqueda personalizada -->
+
+<table th:if ="${listClientesNumeroT}">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Nombre</th>
+			<th>Apellido</th>
+			<th>Numero de Telefono</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each = "clienteByNum: ${listClientesNumeroT}"></tr>
+		<tr th:each = "clienteByNum: ${listClientesNumeroT}">
+			<td th:text = "${clienteByNum.getIdCliente()}"></td>
+			<td th:text = "${clienteByNum.getNombre()}"></td>
+			<td th:text = "${clienteByNum.getApellido()}"></td>
+			<td th:text = "${clienteByNum.getNumeroTelefonico()}"></td>
+			<td><a class = "btnEditar" th:href = "@{/form-cliente/} + ${clienteByNum.getIdCliente()}" th:text = "'Editar'"></a></td>
+			<td><a class = "btnEliminar" th:href = "@{/eliminar-cliente/} + ${clienteByNum.getIdCliente()}" th:text = "'Eliminar'"></a></td>
+		</tr>
+	</tbody>
+</table>
+
+<table th:if ="${clientePorId}">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Nombre</th>
+			<th>Apellido</th>
+			<th>Numero de Telefono</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each = "clienteById: ${clientePorId}"></tr>
+		<tr th:each = "clienteById: ${clientePorId}">
+			<td th:text = "${clienteById.getIdCliente()}"></td>
+			<td th:text = "${clienteById.getNombre()}"></td>
+			<td th:text = "${clienteById.getApellido()}"></td>
+			<td th:text = "${clienteById.getNumeroTelefonico()}"></td>
+			<td><a class = "btnEditar" th:href = "@{/form-cliente/} + ${clienteById.getIdCliente()}" th:text = "'Editar'"></a></td>
+			<td><a class = "btnEliminar" th:href = "@{/eliminar-cliente/} + ${clienteById.getIdCliente()}" th:text = "'Eliminar'"></a></td>
+		</tr>
+	</tbody>
+</table>
+
+<!-- Lista completa abajo -->
+<table th:if="!${listClientesNumeroT} and !${clientePorId}">
+	
+	<a class="btnAceptar" th:href="@{/form-cliente}">Registra nuevo cliente</a>
+	<br>
+	<br>
+	<p class="msjAdvertencia" th:text="${mensajeErr}"></p>
+	<thead>
+		<tr>
+		<th>ID</th>
+		<th>NOMBRE</th>
+		<th>APELLIDO</th>
+		<th>TELEFONO</th>
+		</tr>
+	</thead>
+	<tbody>
+		<p class="msjAdvertencia" th:if = "${clientes.isEmpty()}"> La lista de clientes está vacía</p>
+		
+		<tr th:each = "cliente: ${clientes}"></tr>
+		<tr th:each = "cliente: ${clientes}">
+			<td th:text = "${cliente.getIdCliente()}"></td>
+			<td th:text = "${cliente.getNombre()}"></td>
+			<td th:text = "${cliente.getApellido()}"></td>
+			<td th:text = "${cliente.getNumeroTelefonico()}"></td>
+			<td><a class = "btnEditar" th:href = "@{/form-cliente/} + ${cliente.getIdCliente()}" th:text = "'Editar'"></a></td>
+			<td><a class = "btnEliminar" th:href = "@{/eliminar-cliente/} + ${cliente.getIdCliente()}" th:text = "'Eliminar'"></a></td>
+		</tr>
+	</tbody>
+</table>
+<br>
+<a class="backButton" th:href = "@{/}">Inicio</a>
+<a class="backButton" th:href="@{/clientes-lista}">Volver</a>
+
+</body>
+</html>

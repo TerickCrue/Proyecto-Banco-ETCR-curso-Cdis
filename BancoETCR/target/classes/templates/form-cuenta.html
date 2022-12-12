@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title th:text="${titulo}"></title>
+<link href = "../static/css/Layout.css" th:href = "@{/css/Layout.css}" rel = "stylesheet"/>
+</head>
+<body>
+	<h3 th:text="${titulo}"></h3>
+	<br>
+	<p class = "msjAdvertencia" th:text = "${mensaje}"></p>
+	<p class = "msjSucces" th:text = "${mensajeSuccess}"></p>
+	<p class = "msjAdvertencia" th:text = "${mensajeErr}"></p>
+	<br>
+	<tbody>	
+		<div>
+			<form th:action="@{/form-cuenta}" th:object = "${cuenta}" method = "post">
+				<table>
+					<tr>
+						<td>Saldo inicial</td>
+						<td><input type = "number" th:field = "*{saldoActual}"required></td>
+						<div class="msjAdvertencia" th:if="${#fields.hasErrors('saldoActual')}" th:errors="*{saldoActual}"></div>
+					</tr>
+					<tr>
+						<td>Fecha actual (YYYY-MM-DD)</td>
+						<td><input type = "text" th:field = "*{creacion}" required></td>
+						<div class="msjAdvertencia" th:if="${#fields.hasErrors('creacion')}" th:errors="*{creacion}"></div>
+					</tr>
+					<tr>
+						<td>ID Cliente</td>
+						<td>
+							<select th:field ="*{cliente}">
+							<option th:each = "cliente: ${listaClientes}" 
+									th:value = "${cliente.getIdCliente()}"
+									th:text = "${cliente.getIdCliente()}"></option>
+							
+							</select>
+						</td>
+					</tr>
+				</table>
+				<br><input class="btnAceptar" type = "submit" value = "Registrar cuenta">
+
+			</form>
+		</div>
+	</tbody>
+	<br>
+	<a class="backButton" th:href = "@{/cuentas-lista}">Volver</a>
+	
+</body>
+</html>

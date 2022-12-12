@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title th:text = "${titulo}"></title>
+<link href = "../static/css/Layout.css" th:href = "@{/css/Layout.css}" rel = "stylesheet"/>
+</head>
+<body>
+<h3 th:text = "${titulo}"></h3>
+<br>
+<p class = "msjAdvertencia" th:text = "${mensaje}"></p>
+<p class = "msjSucces" th:text = "${mensajeSuccess}"></p>
+<br>
+
+
+<form th:action = "@{/buscar-numero-tarjeta}" th:object = "${tarjeta}" method = "post">
+	<table th:if = "!${tarjetas.isEmpty()}">
+		<tr>
+			<td>Numero de tarjeta</td>		
+			<td><input type = "text" onfocus="this.value=''" th:field = "*{numeroTarjeta}" value = "busqueda"></td>
+		</tr>
+		<br>
+		<input type = "submit" value = "Buscar"/>
+	</table>
+</form>
+
+<form th:action = "@{/buscar-cuenta-id}" th:object = "${tarjeta}" method = "post">
+	<table th:if = "!${tarjetas.isEmpty()}">
+		<tr>
+			<td>ID de cuenta</td>		
+			<td><input type = "text" onfocus="this.value=''" th:field = "*{cuenta}" value = "busqueda"></td>
+		</tr>
+		<br>
+		<input type = "submit" value = "Buscar"/>
+	</table>
+</form>
+
+
+<table th:if ="${listNumTarjeta}">
+	<thead>
+		<tr>
+			<th>NUMERO DE TARJETA</th>
+			<th>TIPO</th>
+			<th>ID DE CUENTA</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each = "tarjetaByNum: ${listNumTarjeta}"></tr>
+		<tr th:each = "tarjetaByNum: ${listNumTarjeta}">
+			<td th:text = "${tarjetaByNum.getNumeroTarjeta()}"></td>
+			<td th:text = "${tarjetaByNum.getTipoTarjeta()}"></td>
+			<td th:text = "${tarjetaByNum.getCuenta().getIdCuenta()}"></td>
+			<td><a class = "btnEditar" th:href = "@{/form-tarjeta/} + ${tarjetaByNum.getIdTarjeta()}" th:text = "'Editar'"></a></td>
+			<td><a class = "btnEliminar" th:href = "@{/eliminar-tarjeta/} + ${tarjetaByNum.getIdTarjeta()}" th:text = "'Eliminar'"></a></td>
+		</tr>
+	</tbody>
+</table>
+
+<table th:if ="${listTarjetasCuentaId}">
+	<thead>
+		<tr>
+			<th>NUMERO DE TARJETA</th>
+			<th>TIPO</th>
+			<th>ID DE CUENTA</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each = "tarjetaByCuId: ${listTarjetasCuentaId}"></tr>
+		<tr th:each = "tarjetaByCuId: ${listTarjetasCuentaId}">
+			<td th:text = "${tarjetaByCuId.getNumeroTarjeta()}"></td>
+			<td th:text = "${tarjetaByCuId.getTipoTarjeta()}"></td>
+			<td th:text = "${tarjetaByCuId.getCuenta().getIdCuenta()}"></td>
+			<td><a class = "btnEditar" th:href = "@{/form-tarjeta/} + ${tarjetaByCuId.getIdTarjeta()}" th:text = "'Editar'"></a></td>
+			<td><a class = "btnEliminar" th:href = "@{/eliminar-tarjeta/} + ${tarjetaByCuId.getIdTarjeta()}" th:text = "'Eliminar'"></a></td>
+		</tr>
+	</tbody>
+</table>
+
+<!-- Lista completa -->
+<table th:if = "!${listNumTarjeta} and !${listTarjetasCuentaId}">
+
+	<a class="btnAceptar" th:href="@{/form-tarjeta}">Registra nueva tarjeta</a>
+	<br>
+	<br>
+	<p class="msjAdvertencia" th:text="${mensajeErr}"></p>
+	<thead>
+		<tr>
+		<th>NUMERO DE TARJETA</th>
+		<th>TIPO</th>
+		<th>ID DE CUENTA</th>
+		</tr>
+	</thead>
+	<tbody>
+		<p class="msjAdvertencia" th:if = "${tarjetas.isEmpty()}">La lista de tarjetas está vacía</p>
+		
+		<tr th:each = "tarjeta: ${tarjetas}"></tr>
+		<tr th:each = "tarjeta: ${tarjetas}">
+			<td th:text = "${tarjeta.getNumeroTarjeta()}"></td>
+			<td th:text = "${tarjeta.getTipoTarjeta()}"></td>
+			<td th:text = "${tarjeta.getCuenta().getIdCuenta()}"></td>
+			<td><a class = "btnEditar" th:href = "@{/form-tarjeta/} + ${tarjeta.getIdTarjeta()}" th:text = "'Editar'"></a></td>
+			<td><a class = "btnEliminar" th:href = "@{/eliminar-tarjeta/} + ${tarjeta.getIdTarjeta()}" th:text = "'Eliminar'"></a></td>			
+		</tr>
+	</tbody>
+</table>
+<br>
+<a class="backButton" th:href = "@{/}">Inicio</a>
+<a class="backButton" th:href="@{/tarjetas-lista}">Volver</a>
+
+</body>
+</html>

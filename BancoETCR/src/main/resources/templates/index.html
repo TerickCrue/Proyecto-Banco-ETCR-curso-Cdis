@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace = "layout/layout :: head">
+<meta charset="UTF-8" />
+<title>BancoETCR</title>
+<link href = "../static/css/Layout.css" th:href = "@{/css/Layout.css}" rel = "stylesheet"/>
+</head >
+<body>
+
+	<header th:replace = "layout/layout :: header"></header>
+	
+	<a class = "btnAceptar" th:href="@{/tarjetas-lista}">Lista de tarjetas</a>
+	<br>
+	<br>
+	<a class = "btnAceptar" th:href="@{/cuentas-lista}">Lista de cuentas</a>
+	<br>
+	<br>
+	<a class = "btnAceptar" th:href = "@{/clientes-lista}">Lista de clientes</a>
+</body>
+</html>
